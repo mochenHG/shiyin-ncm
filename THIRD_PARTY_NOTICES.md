@@ -1,12 +1,13 @@
-# 拾音 NCM (Shiyin NCM) — third-party notices
+# 拾音 NCM — third-party notices
 
-This is an independent offline desktop implementation. Functional reference: https://tools.athbe.cn/ncm/ . The website is not embedded, contacted, or required at runtime. Visual direction follows the user's local Cloudy project: rounded surfaces, soft red accents, glass-like surfaces and record artwork. Application code and the cloud/record icon were created for this project; Cloudy's Go code and brand images are not bundled.
+The current application is written in Go and uses the system's Microsoft WebView2 runtime. It does not bundle Electron, Chromium or FFmpeg.
 
-NCM's container format was checked against the ncmdump project (https://github.com/taurusxin/ncmdump) and the reference website's WebAssembly decoder. The website files in `reference/` are verification material only and are excluded from the executable. The application has its own streaming decoder.
+- Wails v2.17.0 — MIT: https://github.com/wailsapp/wails . Its Go WebView2 bindings and other Go dependency notices remain in their upstream modules listed in `go.mod` and `go.sum`.
+- mewkiz/flac v1.0.14 — Unlicense (public domain): https://github.com/mewkiz/flac . Used for streaming FLAC decoding.
+- LAME 3.100 — GNU Library General Public License v2 or later: see [codec/COPYING](codec/COPYING) and [codec/README.md](codec/README.md) for the exact binary, source links, checksum and instructions for replacing the separate DLL.
 
-Bundled components:
+The synthetic audio in `internal/ncm/testdata/` contains generated sine waves, not commercial music. The MP3 decoder used only in tests is github.com/hajimehoshi/go-mp3; it is not linked into the released application. The optional Node.js development tools only regenerate test fixtures and are not needed to build or run the Go app.
 
-- Electron 45.3.1 — MIT, https://github.com/electron/electron . The distribution contains Electron and Chromium license notices.
-- FFmpeg 6.1.1 essentials, Gyan.dev build, distributed via ffmpeg-static 5.3.0 — GPL v3. The binary is a separate executable. Its full license and build README are included as resources/ffmpeg-LICENSE.txt and resources/ffmpeg-README.txt. Exact source revision and build configuration are in that README: https://github.com/FFmpeg/FFmpeg/commit/e38092ef93 . Binary distribution: https://github.com/eugeneware/ffmpeg-static/releases/tag/b6.1.1 . Build project: https://www.gyan.dev/ffmpeg/builds/ .
+Functional reference: https://tools.athbe.cn/ncm/ . The website is not embedded, contacted, or required at runtime. The NCM container was checked against https://github.com/taurusxin/ncmdump and the website's decoder during development; its downloaded files are excluded from the repository and executable. The streaming decoder is implemented independently in Go.
 
-Node.js, Chromium and FFmpeg have additional component notices in their respective distributions. `sharp`, Playwright and electron-builder are development tools and are not required by the installed app.
+Visual direction follows the user's earlier Cloudy project. The app's Go code, cloud/record icon and interface assets were made for this project; Cloudy's application code and brand assets are not bundled.

@@ -6,3 +6,7 @@ test-output/
 reference/
 .env
 .env.*
+.tools/
+build/bin/
+src/ui/wailsjs/
+*.syso

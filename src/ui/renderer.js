@@ -60,6 +60,8 @@ function renderRows() {
   }
 }
 function render() {
+  if (state.theme === 'light' || state.theme === 'dark') document.documentElement.dataset.colorScheme = state.theme;
+  else delete document.documentElement.dataset.colorScheme;
   const done = state.items.filter(item => item.status === 'done').length;
   const errors = state.items.filter(item => item.status === 'error').length;
   const active = state.items.find(item => item.status === 'working');
@@ -100,4 +102,5 @@ document.addEventListener('dragover', event => { event.preventDefault(); event.d
 document.addEventListener('dragleave', event => { event.preventDefault(); if (--dragDepth <= 0) { dragDepth = 0; document.body.classList.remove('dragging'); } });
 document.addEventListener('drop', async event => { event.preventDefault(); dragDepth = 0; document.body.classList.remove('dragging'); if (!state.running && !importing) { const files = Array.from(event.dataTransfer.files); importing = true; render(); await request(api.addDropped(files)); importing = false; render(); } });
 document.addEventListener('keydown', event => { if (event.ctrlKey && event.key.toLowerCase() === 'o') { event.preventDefault(); if (!state.running && !importing) request(api.pickFiles()); } });
-api.state().then(result => { if (result.error) toast(result.error); else { state = result; render(); } });
+window.addEventListener('shiyin-notice', event => toast(event.detail));
+api.state().then(result => { if (result.error) toast(result.error); else { state = result; render(); api.ready?.(); } });

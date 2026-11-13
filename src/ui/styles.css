@@ -10,7 +10,7 @@
   --ease: cubic-bezier(.22,1,.36,1); --spring: cubic-bezier(.2,1.55,.4,1);
 }
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-color-scheme=light]) {
     color-scheme: dark;
     --accent: #ff8796; --soft: #ff879616; --ink: #eeeaf0; --muted: #aaa5b1;
     --line: #ffffff12; --green: #90c7b0; --bg: #17171c; --surface: #222229;
@@ -21,6 +21,18 @@
     --sleeve-a: #bf7f8d; --sleeve-b: #9f5b73; --drag: #28202bed;
   }
 }
+:root[data-color-scheme=dark] {
+  color-scheme:dark;--accent:#ff8796;--soft:#ff879616;--ink:#eeeaf0;--muted:#aaa5b1;
+  --line:#ffffff12;--green:#90c7b0;--bg:#17171c;--surface:#222229;
+  --button:#ffffff08;--hover:#303039;--drop-a:#30232c;--drop-b:#252129;
+  --drop-c:#392730;--drop-line:#77505e;--icon-bg:#ff87961c;--icon-ink:#b2a5b7;
+  --path:#c0b7c7;--quiet:#827b8c;--row-line:#ffffff0b;--glass:#24232bd9;
+  --glass-line:#ffffff0d;--shadow:#00000030;--ambient:#b644681a;--ambient-2:#6b519222;
+  --sleeve-a:#bf7f8d;--sleeve-b:#9f5b73;--drag:#28202bed;
+}
+:root[data-color-scheme=light] {color-scheme:light;}
+.titlebar {--wails-draggable:drag;}
+.header-actions {--wails-draggable:no-drag;}
 * { box-sizing: border-box; }
 body { margin:0; background:var(--bg); font-family:'Segoe UI','Microsoft YaHei',sans-serif; color:var(--ink); font-size:12px; height:100vh; display:flex; flex-direction:column; overflow:hidden; -webkit-font-smoothing:antialiased; isolation:isolate; }
 body::before, body::after { content:''; position:fixed; width:600px; height:600px; pointer-events:none; z-index:-1; border-radius:50%; opacity:.8; }
