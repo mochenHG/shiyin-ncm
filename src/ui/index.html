@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'">
+  <title>拾音 NCM · NCM 转 MP3</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<svg class="sprite" xmlns="http://www.w3.org/2000/svg"><defs>
+  <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18h11a4 4 0 0 0 .4-8A6.5 6.5 0 0 0 6 8.6 4.8 4.8 0 0 0 7 18Z"/><path d="M9 13v2m3-3v3m3-2v2"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 19V6a2 2 0 0 1 2-2h5l2 3h7a2 2 0 0 1 2 2v10Z"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V3m-5 5 5-5 5 5M4 15v5h16v-5"/></symbol>
+  <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5l11-2v13M9 9l11-2"/><ellipse cx="6" cy="18" rx="3" ry="3"/><ellipse cx="17" cy="16" rx="3" ry="3"/></symbol>
+  <symbol id="i-convert" viewBox="0 0 24 24"><path d="M4 8h15m-4-4 4 4-4 4M20 16H5m4 4-4-4 4-4"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6Z"/><path d="m8 12 3 3 5-6"/></symbol>
+  <symbol id="i-system" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8m-4-4v4"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1 1m12 12 1 1M5 19l1-1M18 6l1-1"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></symbol>
+</defs></svg>
+<header class="titlebar">
+  <div class="brand"><span class="brand-icon"><svg><use href="#i-cloud"/></svg></span><strong>拾音</strong></div>
+  <div class="header-actions">
+    <div class="theme-switch" role="group" aria-label="界面外观">
+      <button data-theme="system" aria-label="跟随系统" aria-pressed="true" title="跟随系统"><svg><use href="#i-system"/></svg></button>
+      <button data-theme="light" aria-label="浅色模式" aria-pressed="false" title="浅色模式"><svg><use href="#i-sun"/></svg></button>
+      <button data-theme="dark" aria-label="深色模式" aria-pressed="false" title="深色模式"><svg><use href="#i-moon"/></svg></button>
+    </div>
+    <div class="window-actions"><button data-window="minimize" aria-label="最小化">−</button><button data-window="maximize" aria-label="最大化">□</button><button data-window="close" aria-label="关闭">×</button></div>
+  </div>
+</header>
+<main>
+  <section class="heading"><div><span class="eyebrow" id="intro-kicker">YOUR MUSIC, UNLOCKED.</span><h1 id="intro-title">换个格式，继续喜欢。</h1><p id="intro-description">拖入音乐，一键转换为 MP3，直接保存到本地。</p></div></section>
+  <section id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="拖入或选择 NCM 文件">
+    <div class="drop-content"><span class="upload-icon"><svg><use href="#i-upload"/></svg></span><div><h2>把 .ncm 文件拖到这里</h2><p>支持多首音乐，也可以直接拖入整个文件夹</p></div></div>
+    <div class="drop-buttons"><button id="add" class="primary"><svg><use href="#i-plus"/></svg>选择文件</button><button id="import-folder" class="secondary"><svg><use href="#i-folder"/></svg>导入本地文件夹</button></div>
+    <div class="record-art" aria-hidden="true"><div class="art-parallax"><div class="sleeve"><svg><use href="#i-cloud"/></svg><span>shiyin / music collection</span></div><div class="record"><span></span></div><b class="spark spark-one">✦</b><b class="spark spark-two">✧</b></div></div>
+  </section>
+  <section class="output"><span class="output-icon"><svg><use href="#i-folder"/></svg></span><div><span class="label">输出文件夹</span><span id="output-path"></span></div><button id="output-folder" class="text-button">设置输出文件夹<span>↗</span></button></section>
+  <section class="queue">
+    <div class="queue-heading"><h2>转换列表 <span id="count">0</span></h2><div><span id="summary">等待添加音乐</span><button id="clear" class="text-button" disabled>清空</button></div></div>
+    <div class="table-heading"><span>文件名</span><span>大小</span><span>状态</span><span></span></div>
+    <div id="file-list"></div>
+    <div id="empty"><svg><use href="#i-music"/></svg><p>你的音乐，准备就绪后会出现在这里</p></div>
+  </section>
+</main>
+<footer>
+  <div class="status"><span id="status-icon"><svg><use href="#i-shield"/></svg></span><strong id="batch-status" role="status">准备好，随时开始。</strong></div>
+  <div class="footer-actions"><button id="open-output" class="secondary"><svg><use href="#i-folder"/></svg>打开输出文件夹</button><button id="convert" class="primary" disabled><svg><use href="#i-convert"/></svg><span>开始转换</span></button></div>
+  <div id="overall-progress"></div>
+</footer>
+<div id="toast" class="toast" role="status"></div>
+<script src="renderer.js"></script>
+<script src="motion.js"></script>
+</body></html>
